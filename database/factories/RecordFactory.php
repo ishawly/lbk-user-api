@@ -21,7 +21,7 @@ class RecordFactory extends Factory
             'type'        => (random_int(0, 9) % 2) ? -1 : 1,
             'category_id' => random_int(1, 10),
             'amount'      => random_int(100, 5000000),
-            'remarks'     => fake()->text(),
+            'remarks'     => $this->faker->text(),
         ];
     }
 }

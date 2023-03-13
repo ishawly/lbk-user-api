@@ -14,6 +14,9 @@ return new class() extends Migration {
             $table->id(); // 分类,10000以下系统设置,以上为用户自定义
             $table->bigInteger('user_id')->nullable(false)->default(0)->comment('0:系统用户');
             $table->string('name')->nullable(false);
+            $table->tinyInteger('type')->nullable(false)->comment('-1:支出,1:收入,0:通用');
+            $table->string('icon')->nullable(false)->default('');
+            $table->integer('sort')->nullable(false)->default(0);
             $table->softDeletes();
             $table->timestamps();
         });
