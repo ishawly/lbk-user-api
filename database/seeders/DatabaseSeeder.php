@@ -16,7 +16,8 @@ class DatabaseSeeder extends Seeder
         // user
         \App\Models\User::factory()->create(['id' => 1, 'name' => 'system1']);
         \App\Models\User::factory()->create(['id' => 1000, 'name' => 'system1000']);
-        \App\Models\User::factory(20)->create();
+        \App\Models\User::factory()->create(['name' => 'shawly', 'email' => 'ishawly@qq.com']);
+        \App\Models\User::factory(19)->create();
 
         // category
         (new CategorySeeder())->run();
