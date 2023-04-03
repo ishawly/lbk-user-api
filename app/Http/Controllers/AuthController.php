@@ -14,20 +14,11 @@ class AuthController extends Controller
         $data = $request->validated();
         $user = User::where('email', $data['username'])->firstOrFail();
         if (! Hash::check($data['password'], $user->password)) {
-            return response()->json([
-                'code'    => Response::HTTP_UNPROCESSABLE_ENTITY,
-                'message' => '用户名或密码错误',
-            ], Response::HTTP_UNPROCESSABLE_ENTITY);
+            return $this->failed('用户名或密码错误', Response::HTTP_UNPROCESSABLE_ENTITY);
         }
 
         $token = $user->createToken('api-v1');
 
-        return [
-            'code'    => 0,
-            'message' => 'ok',
-            'data'    => [
-                'access_token' => $token->plainTextToken,
-            ],
-        ];
+        return $this->success(['access_token' => $token->plainTextToken]);
     }
 }
