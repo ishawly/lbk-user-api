@@ -19,6 +19,8 @@ class CategoryFactory extends Factory
         return [
             'user_id' => 0,
             'name'    => $this->faker->name(),
+            'type'    => 0,
+            'icon'    => '',
             'sort'    => 0,
         ];
     }

@@ -23,7 +23,7 @@ class CategorySeeder extends Seeder
             '出行',
             '酒店',
             '休闲娱乐',
-            '问题教育',
+            '教育',
             '公益',
             '生活日用',
             '医疗健康',
@@ -35,8 +35,20 @@ class CategorySeeder extends Seeder
             '红包',
             '手续费',
             '还款',
+            '债券',
+            '理财产品',
+            '定期',
+            '外汇',
+            '贵金属',
+            '股票',
         ];
         $this->addItem($categories, 1, Record::TYPE_SUB);
+
+        // 其他
+        $other = [
+            '其他',
+        ];
+        $this->addItem($other, 5000, Record::TYPE_SUB);
 
         $categories = [
             '工资',
@@ -47,17 +59,12 @@ class CategorySeeder extends Seeder
             '外汇',
             '贵金属',
             '股票',
-            // '其他投资',
         ];
         $this->addItem($categories, 5001, Record::TYPE_ADD);
-        // 其他
-        $categories = [
-            '其他',
-        ];
-        $this->addItem($categories, 10000);
+        $this->addItem($other, 10000, Record::TYPE_ADD);
     }
 
-    private function addItem($categories, $startId, $type = Record::TYPE_ALL)
+    private function addItem($categories, $startId, $type)
     {
         $num = 1;
         foreach ($categories as $c) {
