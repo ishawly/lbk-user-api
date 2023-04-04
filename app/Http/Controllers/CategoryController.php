@@ -12,7 +12,12 @@ class CategoryController extends Controller
      */
     public function index()
     {
-        //
+        $categories = Category::select(['id', 'name', 'icon', 'type'])
+            ->orderBy('type')
+            ->orderByDesc('sort')
+            ->get();
+
+        return $this->success($categories);
     }
 
     /**
