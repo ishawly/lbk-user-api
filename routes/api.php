@@ -20,5 +20,7 @@ Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
     return $request->user();
 });
 
-Route::post('/v1/auth/login/using-password', [AuthController::class, 'usingPassword']);
-Route::get('/v1/categories', [CategoryController::class, 'index']);
+Route::prefix('/v1')->group(function () {
+    Route::post('/auth/login/using-password', [AuthController::class, 'usingPassword']);
+    Route::get('/categories', [CategoryController::class, 'index']);
+});
