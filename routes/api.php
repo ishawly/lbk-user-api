@@ -2,7 +2,7 @@
 
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\CategoryController;
-use App\Models\Record;
+use App\Http\Controllers\RecordController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
@@ -26,6 +26,6 @@ Route::prefix('/v1')->group(function () {
             return $request->user();
         });
 
-        Route::apiResource('records', Record::class);
+        Route::apiResource('records', RecordController::class);
     });
 });

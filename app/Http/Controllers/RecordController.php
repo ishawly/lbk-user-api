@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Http\Requests\Record\StoreRecordRequest;
 use App\Http\Requests\Record\UpdateRecordRequest;
 use App\Models\Record;
+use App\Services\RecordService;
 
 class RecordController extends Controller
 {
@@ -19,9 +20,12 @@ class RecordController extends Controller
     /**
      * Store a newly created resource in storage.
      */
-    public function store(StoreRecordRequest $request)
+    public function store(StoreRecordRequest $request, RecordService $recordService)
     {
-        //
+        $data = $request->validated();
+        $record = $recordService->store($data, $request->user());
+
+        return $this->success($record);
     }
 
     /**
