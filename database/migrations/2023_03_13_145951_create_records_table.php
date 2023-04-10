@@ -16,6 +16,7 @@ return new class() extends Migration {
             $table->tinyInteger('type')->nullable(false)->comment('-1:支出,1:收入');
             $table->bigInteger('category_id')->nullable(false)->comment('分类,10000以下系统设置,以上为用户自定义');
             $table->bigInteger('amount')->default(0)->comment('单位分');
+            $table->date('transaction_date')->nullable(false)->comment('交易发生日期');
             $table->string('remarks')->default('');
             $table->softDeletes();
             $table->timestamps();

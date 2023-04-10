@@ -22,7 +22,7 @@ class RecordController extends Controller
      */
     public function store(StoreRecordRequest $request, RecordService $recordService)
     {
-        $data = $request->validated();
+        $data   = $request->validated();
         $record = $recordService->store($data, $request->user());
 
         return $this->success($record);

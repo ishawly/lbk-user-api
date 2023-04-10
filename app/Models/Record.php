@@ -20,6 +20,11 @@ class Record extends Model
         'type',
         'category_id',
         'amount',
+        'transaction_date',
         'remarks',
     ];
+
+//    protected $casts = [
+//        'transaction_at' => 'datetime'
+//    ];
 }
