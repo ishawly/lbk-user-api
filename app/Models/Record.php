@@ -16,6 +16,7 @@ class Record extends Model
     public const TYPE_ALL = 0;
 
     protected $fillable = [
+        'reciprocal_name',
         'user_id',
         'type',
         'category_id',

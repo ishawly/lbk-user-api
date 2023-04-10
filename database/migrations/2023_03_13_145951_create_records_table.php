@@ -13,6 +13,7 @@ return new class() extends Migration {
         Schema::create('records', function (Blueprint $table) {
             $table->id();
             $table->bigInteger('user_id')->nullable(false);
+            $table->string('reciprocal_name', 50)->nullable(false)->comment('对方名称');
             $table->tinyInteger('type')->nullable(false)->comment('-1:支出,1:收入');
             $table->bigInteger('category_id')->nullable(false)->comment('分类,10000以下系统设置,以上为用户自定义');
             $table->bigInteger('amount')->default(0)->comment('单位分');
