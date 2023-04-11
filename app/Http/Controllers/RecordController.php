@@ -4,9 +4,11 @@ namespace App\Http\Controllers;
 
 use App\Http\Requests\Record\StoreRecordRequest;
 use App\Http\Requests\Record\UpdateRecordRequest;
+use App\Http\Resources\Record\RecordCollection;
 use App\Http\Resources\Record\RecordResource;
 use App\Models\Record;
 use App\Services\RecordService;
+use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Symfony\Component\HttpFoundation\Response;
 
@@ -15,9 +17,29 @@ class RecordController extends Controller
     /**
      * Display a listing of the resource.
      */
-    public function index()
+    public function index(Request $request)
     {
-        //
+        $size       = (int) $request->input('size', 10);
+        $type       = (int) $request->input('type');
+        $categoryId = (int) $request->input('category_id');
+        $keyword    = $request->input('keyword');
+
+        $transactionDateStart = $request->input('transaction_date_start');
+        $transactionDateEnd   = $request->input('transaction_date_end');
+
+        $size <= 0 and $size = 10;
+
+        $query = Record::query()->where('user_id', $request->user()->id);
+
+        $type                 and $query->where('type', $type);
+        $categoryId           and $query->where('category_id', $categoryId);
+        $keyword              and $query->where('reciprocal_name', 'like', "%{$keyword}%");
+        $transactionDateStart and $query->where('transaction_date', '>=', $transactionDateStart);
+        $transactionDateEnd   and $query->where('transaction_date', '<=', $transactionDateEnd);
+
+        $data = $query->paginate($size);
+
+        return $this->success(new RecordCollection($data));
     }
 
     /**
