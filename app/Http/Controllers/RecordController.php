@@ -4,8 +4,11 @@ namespace App\Http\Controllers;
 
 use App\Http\Requests\Record\StoreRecordRequest;
 use App\Http\Requests\Record\UpdateRecordRequest;
+use App\Http\Resources\Record\RecordResource;
 use App\Models\Record;
 use App\Services\RecordService;
+use Illuminate\Support\Facades\Auth;
+use Symfony\Component\HttpFoundation\Response;
 
 class RecordController extends Controller
 {
@@ -25,7 +28,7 @@ class RecordController extends Controller
         $data   = $request->validated();
         $record = $recordService->store($data, $request->user());
 
-        return $this->success($record);
+        return $this->success(new RecordResource($record));
     }
 
     /**
@@ -33,7 +36,11 @@ class RecordController extends Controller
      */
     public function show(Record $record)
     {
-        //
+        if ($record->user_id != Auth::user()->id) {
+            return $this->failed('Not Found', Response::HTTP_NOT_FOUND);
+        }
+
+        return $this->success(new RecordResource($record));
     }
 
     /**
