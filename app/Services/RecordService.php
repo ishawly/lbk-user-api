@@ -12,4 +12,9 @@ class RecordService
 
         return Record::create($attributes);
     }
+
+    public function update(Record $record, array $attributes)
+    {
+        $record->update($attributes);
+    }
 }

@@ -36,9 +36,7 @@ class RecordController extends Controller
      */
     public function show(Record $record)
     {
-        if ($record->user_id != Auth::user()->id) {
-            return $this->failed('Not Found', Response::HTTP_NOT_FOUND);
-        }
+        $this->canModify($record->user_id);
 
         return $this->success(new RecordResource($record));
     }
@@ -46,9 +44,14 @@ class RecordController extends Controller
     /**
      * Update the specified resource in storage.
      */
-    public function update(UpdateRecordRequest $request, Record $record)
+    public function update(UpdateRecordRequest $request, Record $record, RecordService $recordService)
     {
-        //
+        $this->canModify($record->user_id);
+
+        $data = $request->validated();
+        $recordService->update($record, $data);
+
+        return $this->success(new RecordResource($record));
     }
 
     /**
@@ -56,6 +59,18 @@ class RecordController extends Controller
      */
     public function destroy(Record $record)
     {
-        //
+        $this->canModify($record->user_id);
+
+        $record->delete();
+
+        return $this->deleted();
+    }
+
+    private function canModify($userId)
+    {
+        if ($userId != Auth::user()->id) {
+            $response = $this->failed('Not Found', Response::HTTP_NOT_FOUND);
+            abort($response);
+        }
     }
 }

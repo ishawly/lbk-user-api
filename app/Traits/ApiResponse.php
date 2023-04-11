@@ -22,4 +22,9 @@ trait ApiResponse
             'message' => $message,
         ], $status);
     }
+
+    public function deleted()
+    {
+        return \response()->json()->setStatusCode(Response::HTTP_NO_CONTENT);
+    }
 }
