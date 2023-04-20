@@ -24,3 +24,10 @@ RUN docker-php-ext-install pdo_mysql
 
 EXPOSE 8000
 CMD php artisan serve --host=0.0.0.0 --port=8000
+
+# Build and run the Docker image
+# docker build -t lbk-user-api .
+# docker run -it --rm -p 8000:8000  --name lbk-user-api lbk-user-api
+#
+# Run a single PHP script
+# docker run -it --rm --name my-running-php-script -v "$PWD":/app -w /app lbk-user-api php
