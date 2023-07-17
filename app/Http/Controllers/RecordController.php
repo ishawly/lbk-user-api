@@ -24,8 +24,8 @@ class RecordController extends Controller
         $categoryId = (int) $request->input('category_id');
         $keyword    = $request->input('keyword');
 
-        $transactionDateStart = $request->input('transaction_date_start');
-        $transactionDateEnd   = $request->input('transaction_date_end');
+        $transactionAtStart = $request->input('transaction_at_start');
+        $transactionAtEnd   = $request->input('transaction_at_end');
 
         $size <= 0 and $size = 10;
 
@@ -34,8 +34,8 @@ class RecordController extends Controller
         $type                 and $query->where('type', $type);
         $categoryId           and $query->where('category_id', $categoryId);
         $keyword              and $query->where('reciprocal_name', 'like', "%{$keyword}%");
-        $transactionDateStart and $query->where('transaction_date', '>=', $transactionDateStart);
-        $transactionDateEnd   and $query->where('transaction_date', '<=', $transactionDateEnd);
+        $transactionAtStart and $query->where('transaction_at', '>=', $transactionAtStart);
+        $transactionAtEnd   and $query->where('transaction_at', '<=', $transactionAtEnd);
 
         $data = $query->paginate($size);
 

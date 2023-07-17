@@ -14,12 +14,12 @@ class StoreRecordRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'reciprocal_name'  => 'required|string|max:50',
-            'type'             => 'required|integer|in:-1,1',
-            'category_id'      => 'required|integer',
-            'amount'           => 'required|numeric|min:0',
-            'transaction_date' => 'required|date',
-            'remarks'          => 'nullable|string|max:200',
+            'reciprocal_name' => 'required|string|max:50',
+            'type'            => 'required|integer|in:-1,1',
+            'category_id'     => 'required|integer',
+            'amount'          => 'required|numeric|min:0',
+            'transaction_at'  => 'required|date',
+            'remarks'         => 'nullable|string|max:200',
         ];
     }
 

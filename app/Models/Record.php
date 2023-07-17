@@ -21,7 +21,7 @@ class Record extends Model
         'type',
         'category_id',
         'amount',
-        'transaction_date',
+        'transaction_at',
         'remarks',
     ];
 
