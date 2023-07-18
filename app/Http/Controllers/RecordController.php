@@ -42,6 +42,11 @@ class RecordController extends Controller
         return $this->success(new RecordCollection($data));
     }
 
+    public function create(Request $request)
+    {
+        return view('record.store');
+    }
+
     /**
      * Store a newly created resource in storage.
      */

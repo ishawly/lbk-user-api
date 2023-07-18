@@ -14,7 +14,7 @@ class StoreRecordRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'reciprocal_name' => 'required|string|max:50',
+            'reciprocal_name' => 'nullable|string|max:50',
             'type'            => 'required|integer|in:-1,1',
             'category_id'     => 'required|integer',
             'amount'          => 'required|numeric|min:0',
@@ -26,7 +26,9 @@ class StoreRecordRequest extends FormRequest
     protected function prepareForValidation()
     {
         $this->merge([
-            'amount' => intval($this->amount * 100),
+            'reciprocal_name' => $this->reciprocal_name ?: '',
+            'amount'          => intval($this->amount * 100),
+            'remarks'         => $this->remarks ?: '',
         ]);
     }
 }

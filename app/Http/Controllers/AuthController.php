@@ -9,6 +9,11 @@ use Symfony\Component\HttpFoundation\Response;
 
 class AuthController extends Controller
 {
+    public function login()
+    {
+        return view('auth.login');
+    }
+
     public function usingPassword(LoginUsingPasswordRequest $request)
     {
         $data = $request->validated();
