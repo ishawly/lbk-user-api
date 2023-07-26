@@ -18,6 +18,7 @@ use Illuminate\Support\Facades\Route;
 Route::get('/', function () {
     return view('welcome');
 });
-Route::get('/auth/login', [AuthController::class, 'login'])->name('login');
+Route::get('/login', [AuthController::class, 'login'])->name('login');
+Route::post('/session', [AuthController::class, 'session'])->name('session');
 
 Route::get('/records/create', [RecordController::class, 'create']);

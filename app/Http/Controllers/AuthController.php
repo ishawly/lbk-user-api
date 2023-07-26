@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Http\Requests\Auth\LoginUsingPasswordRequest;
 use App\Models\User;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
 use Symfony\Component\HttpFoundation\Response;
 
@@ -12,6 +13,25 @@ class AuthController extends Controller
     public function login()
     {
         return view('auth.login');
+    }
+
+    public function session(LoginUsingPasswordRequest $request)
+    {
+        $input       = $request->validated();
+        $credentials = [
+            'email'    => $input['username'],
+            'password' => $input['password'],
+        ];
+
+        if (Auth::attempt($credentials)) {
+            $request->session()->regenerate();
+
+            return redirect()->intended('dashboard');
+        }
+
+        return back()->withErrors([
+            'email' => '用户名或密码错误',
+        ])->onlyInput('email');
     }
 
     public function usingPassword(LoginUsingPasswordRequest $request)
