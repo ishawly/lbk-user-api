@@ -4,22 +4,23 @@ namespace App\Http\Controllers;
 
 use App\Http\Requests\Auth\LoginUsingPasswordRequest;
 use App\Models\User;
+use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
 use Symfony\Component\HttpFoundation\Response;
 
 class AuthController extends Controller
 {
-    public function login()
+    public function create()
     {
         return view('auth.login');
     }
 
-    public function session(LoginUsingPasswordRequest $request)
+    public function store(LoginUsingPasswordRequest $request)
     {
         $input       = $request->validated();
         $credentials = [
-            'email'    => $input['username'],
+            fn (Builder $query) => $query->where('email', $input['username']),
             'password' => $input['password'],
         ];
 
