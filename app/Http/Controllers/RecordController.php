@@ -14,28 +14,23 @@ use Symfony\Component\HttpFoundation\Response;
 
 class RecordController extends Controller
 {
+    public function showRecords(Request $request)
+    {
+        $data = $this->index($request);
+
+        return view('record.index', $data);
+    }
+
     /**
      * Display a listing of the resource.
      */
-    public function index(Request $request)
+    public function index(Request $request, RecordService $recordService)
     {
-        $size       = (int) $request->input('size', 10);
-        $type       = (int) $request->input('type');
-        $categoryId = (int) $request->input('category_id');
-        $keyword    = $request->input('keyword');
-
-        $transactionAtStart = $request->input('transaction_at_start');
-        $transactionAtEnd   = $request->input('transaction_at_end');
-
+        $size                = (int) $request->input('size', 10);
         $size <= 0 and $size = 10;
 
-        $query = Record::query()->where('user_id', $request->user()->id);
-
-        $type                 and $query->where('type', $type);
-        $categoryId           and $query->where('category_id', $categoryId);
-        $keyword              and $query->where('reciprocal_name', 'like', "%{$keyword}%");
-        $transactionAtStart and $query->where('transaction_at', '>=', $transactionAtStart);
-        $transactionAtEnd   and $query->where('transaction_at', '<=', $transactionAtEnd);
+        $query = $recordService->getRecordQueryBuilder($request);
+        $query->where('user_id', $request->user()->id)->with('category:id,name');
 
         $data = $query->paginate($size);
 

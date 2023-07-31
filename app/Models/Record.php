@@ -4,6 +4,7 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
 
 class Record extends Model
 {
@@ -25,7 +26,12 @@ class Record extends Model
         'remarks',
     ];
 
-//    protected $casts = [
-//        'transaction_at' => 'datetime'
-//    ];
+    protected $casts = [
+        'transaction_at' => 'datetime',
+    ];
+
+    public function category(): BelongsTo
+    {
+        return $this->belongsTo(Category::class);
+    }
 }
