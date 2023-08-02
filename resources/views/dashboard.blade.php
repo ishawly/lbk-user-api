@@ -9,12 +9,12 @@
     <div class="records">
         @foreach ($records as $r)
         <div class="item">
-            <p>{{ $r->type_name }}: {{ $r->amount }}</p>
+            <p>{{ $r->getTypeName() }}: {{ $r->getAmountYuan() }}</p>
             <p>类型: {{ $r->category->name }}</p>
             @if ($r->reciprocal_name)
             <p>对方名称: {{ $r->reciprocal_name }}</p>
             @endif
-            <p>日期: {{ $r->transaction_at }}</p>
+            <p>日期: {{ $r->transaction_at->format('Y-m-d H:i:s') }}</p>
             @if ($r->remark)
             <p>{{ $r->remark }}</p>
             @endif

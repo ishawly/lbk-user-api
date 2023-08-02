@@ -2,8 +2,6 @@
 
 namespace App\Http\Controllers;
 
-use App\Http\Resources\Record\RecordCollection;
-use App\Http\Resources\Record\RecordResource;
 use App\Services\RecordService;
 use Illuminate\Http\Request;
 
@@ -14,14 +12,10 @@ class DashboardController extends Controller
         $query = $recordService->getRecordQueryBuilder($request);
         $query->where('user_id', $request->user()->id)->with('category:id,name');
 
-        $paginate = $query->paginate();
-
-//        $collection = RecordResource::collection($paginate);
-
-        $collection = new RecordCollection($paginate);
+        $records = $query->get();
 
         return view('dashboard', [
-            'records' => $collection->items(),
+            'records' => $records,
         ]);
     }
 }

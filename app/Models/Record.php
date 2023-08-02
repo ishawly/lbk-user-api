@@ -34,4 +34,14 @@ class Record extends Model
     {
         return $this->belongsTo(Category::class);
     }
+
+    public function getTypeName()
+    {
+        return self::TYPE_SUB === $this->type ? '支出' : '收入';
+    }
+
+    public function getAmountYuan()
+    {
+        return $this->amount / 100;
+    }
 }
