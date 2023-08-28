@@ -1,7 +1,8 @@
 <?php
 
-namespace App\Http\Controllers;
+namespace App\Http\Controllers\Api;
 
+use App\Http\Controllers\Controller;
 use App\Http\Requests\Record\StoreRecordRequest;
 use App\Http\Requests\Record\UpdateRecordRequest;
 use App\Http\Resources\Record\RecordCollection;
@@ -14,13 +15,6 @@ use Symfony\Component\HttpFoundation\Response;
 
 class RecordController extends Controller
 {
-    public function showRecords(Request $request)
-    {
-        $data = $this->index($request);
-
-        return view('record.index', $data);
-    }
-
     /**
      * Display a listing of the resource.
      */
@@ -37,20 +31,15 @@ class RecordController extends Controller
         return $this->success(new RecordCollection($data));
     }
 
-    public function create(Request $request)
-    {
-        return view('record.create');
-    }
-
     /**
      * Store a newly created resource in storage.
      */
     public function store(StoreRecordRequest $request, RecordService $recordService)
     {
         $data   = $request->validated();
-        $recordService->store($data, $request->user());
+        $record = $recordService->store($data, $request->user());
 
-        return redirect()->route('records.create')->with('record.store.success', '记录成功!');
+        return $this->success(new RecordResource($record));
     }
 
     /**

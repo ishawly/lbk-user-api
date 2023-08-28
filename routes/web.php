@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\AuthController;
+use App\Http\Controllers\CategoryController;
 use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\RecordController;
 use Illuminate\Support\Facades\Route;
@@ -23,7 +24,9 @@ Route::get('/login', [AuthController::class, 'create'])->name('login');
 Route::post('/login', [AuthController::class, 'store']);
 
 Route::middleware('auth:web')->group(function () {
+    Route::get('/categories', [CategoryController::class, 'index']);
+
     Route::get('/dashboard', [DashboardController::class, 'index'])->name('dashboard');
 
-    Route::get('/records/create', [RecordController::class, 'create'])->name('record.create');
+    Route::resource('records', RecordController::class);
 });

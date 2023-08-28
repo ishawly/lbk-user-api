@@ -10,7 +10,7 @@
 <div>
     <ul>
         <li><a href="{{ route('dashboard') }}" >首页</a></li>
-        <li><a href="{{ route('record.create') }}" >记一条</a></li>
+        <li><a href="{{ route('records.create') }}" >记一条</a></li>
     </ul>
 </div>
 

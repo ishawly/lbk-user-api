@@ -31,6 +31,8 @@ class RecordService
     public function store(array $attributes, $user)
     {
         $attributes['user_id'] = $user->id;
+        // 以分为单位保存
+        $attributes['amount'] = intval($attributes['amount'] * 100);
 
         return Record::create($attributes);
     }

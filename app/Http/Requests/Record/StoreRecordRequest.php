@@ -17,7 +17,7 @@ class StoreRecordRequest extends FormRequest
             'reciprocal_name' => 'nullable|string|max:50',
             'type'            => 'required|integer|in:-1,1',
             'category_id'     => 'required|integer',
-            'amount'          => 'required|numeric|min:0',
+            'amount'          => 'required|numeric|min:1|max:400000000',
             'transaction_at'  => 'required|date',
             'remarks'         => 'nullable|string|max:200',
         ];
@@ -27,7 +27,7 @@ class StoreRecordRequest extends FormRequest
     {
         $this->merge([
             'reciprocal_name' => $this->reciprocal_name ?: '',
-            'amount'          => intval($this->amount * 100),
+            'amount'          => floatval($this->amount),
             'remarks'         => $this->remarks ?: '',
         ]);
     }
