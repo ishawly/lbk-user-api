@@ -1,11 +1,8 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <title>Record Store</title>
-    @vite(['resources/js/app.js', 'resources/css/app.css'])
-</head>
-<body>
+<x-layout>
+    <x-slot:title>
+        记一条
+    </x-slot:title>
+
     <form id="form">
         <p>
             <label>收支</label>
@@ -42,44 +39,44 @@
             <button type="submit">保存</button>
         </p>
     </form>
-</body>
-<script type="text/javascript">
-    function recordSubmit(event) {
-        event.preventDefault()
-        let data = {
-            type: getInputValue('type', 'select'),
-            category_id: getInputValue('category_id', 'select'),
-            reciprocal_name: getInputValue('reciprocal_name'),
-            amount: getInputValue('amount'),
-            transaction_at: getInputValue('transaction_at'),
-            remarks: getInputValue('remarks'),
-            _token: '{{ csrf_token() }}',
+
+    <script type="text/javascript">
+        function recordSubmit(event) {
+            event.preventDefault()
+            let data = {
+                type: getInputValue('type', 'select'),
+                category_id: getInputValue('category_id', 'select'),
+                reciprocal_name: getInputValue('reciprocal_name'),
+                amount: getInputValue('amount'),
+                transaction_at: getInputValue('transaction_at'),
+                remarks: getInputValue('remarks'),
+                _token: '{{ csrf_token() }}',
+            }
+
+            fetch('/api/v1/records', {
+                method: 'post',
+                headers: {
+                    'Accept': 'application/json',
+                    'Content-Type': 'application/json',
+                    'Authorization': 'Bearer ' + localStorage.getItem('access_token'),
+                },
+                body: JSON.stringify(data)
+            }).then(function (response) {
+                const data = response.json();
+            }).catch(function (err) {
+                console.error(err)
+            })
         }
 
-        fetch('/api/v1/records', {
-            method: 'post',
-            headers: {
-                'Accept': 'application/json',
-                'Content-Type': 'application/json',
-                'Authorization': 'Bearer ' + localStorage.getItem('access_token'),
-            },
-            body: JSON.stringify(data)
-        }).then(function (response) {
-            const data = response.json();
-        }).catch(function (err) {
-            console.error(err)
-        })
-    }
-
-    function getInputValue(key, tag) {
-        if (! tag) {
-            tag = 'input';
+        function getInputValue(key, tag) {
+            if (! tag) {
+                tag = 'input';
+            }
+            let dom = document.querySelector(tag + '[name="' + key + '"]')
+            return dom.value
         }
-        let dom = document.querySelector(tag + '[name="' + key + '"]')
-        return dom.value
-    }
 
-    const form = document.getElementById('form')
-    form.addEventListener('submit', recordSubmit)
-</script>
-</html>
+        const form = document.getElementById('form')
+        form.addEventListener('submit', recordSubmit)
+    </script>
+</x-layout>

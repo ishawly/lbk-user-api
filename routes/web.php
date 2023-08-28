@@ -25,5 +25,5 @@ Route::post('/login', [AuthController::class, 'store']);
 Route::middleware('auth:web')->group(function () {
     Route::get('/dashboard', [DashboardController::class, 'index'])->name('dashboard');
 
-    Route::get('/records/create', [RecordController::class, 'create']);
+    Route::get('/records/create', [RecordController::class, 'create'])->name('record.create');
 });
