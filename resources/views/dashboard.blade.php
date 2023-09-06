@@ -8,4 +8,6 @@
             <x-records.item :record="$r" />
         @endforeach
     </div>
+
+    {{ $records->links() }}
 </x-layout>

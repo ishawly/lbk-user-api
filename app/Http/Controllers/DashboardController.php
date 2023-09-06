@@ -12,7 +12,7 @@ class DashboardController extends Controller
         $query = $recordService->getRecordQueryBuilder($request);
         $query->where('user_id', $request->user()->id)->with('category:id,name');
 
-        $records = $query->get();
+        $records = $query->paginate();
 
         return view('dashboard', [
             'records' => $records,
