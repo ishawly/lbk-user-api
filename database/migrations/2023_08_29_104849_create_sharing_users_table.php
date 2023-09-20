@@ -15,7 +15,6 @@ return new class extends Migration
             $table->id();
             $table->unsignedBigInteger('sharing_id');
             $table->unsignedBigInteger('user_id');
-            $table->unsignedBigInteger('sharing_user_group_id');
             $table->string('status', 20);
 
             $table->integer('sharing_ratio')->default(0)->nullable(false)->comment('分摊比率,万分比取分子');

@@ -13,6 +13,7 @@ return new class extends Migration
     {
         Schema::create('sharings', function (Blueprint $table) {
             $table->id();
+            $table->unsignedBigInteger('sharing_user_group_id');
             $table->string('status', 20);
             $table->string('name')->nullable(false);
             $table->unsignedBigInteger('created_by')->nullable(false);

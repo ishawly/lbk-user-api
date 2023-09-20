@@ -14,6 +14,7 @@ return new class extends Migration
         Schema::create('sharing_user_group_details', function (Blueprint $table) {
             $table->id();
             $table->unsignedBigInteger('sharing_user_group_id')->nullable(false);
+            $table->unsignedBigInteger('user_id')->nullable(false);
             $table->timestamp('joined_at');
             $table->timestamps();
         });
