@@ -31,7 +31,7 @@ class AuthController extends Controller
         }
 
         return back()->withErrors([
-            'email' => '用户名或密码错误',
+            'username' => '用户名或密码错误',
         ])->onlyInput('email');
     }
 
