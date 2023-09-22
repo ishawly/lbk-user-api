@@ -1,36 +1,27 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <title>登录</title>
-    @vite(['resources/js/app.js', 'resources/css/app.css'])
-</head>
-<body>
+<x-guest-layout>
     <form id="form" action="{{ route('login') }}" method="post">
         @csrf
 
-        <p>
-            <label>邮箱</label>
-            <input type="text" name="username" value="{{ @old('username') }}"/>
-        </p>
+        <div>
+            <x-input-label for="username" :value="__('用户名')"/>
+            <x-input-text id="username" class="block mt-1 w-full" type="email" name="username" :value="old('username')"
+                          required autofocus/>
+            <x-input-error :messages="$errors->get('username')" class="mt-2"/>
+        </div>
 
-        <p>
-            <label>密码</label>
-            <input type="password" name="password" />
-        </p>
+        <div class="mt-4">
+            <x-input-label for="password" :value="__('密码')"/>
+            <x-input-text id="password" class="block mt-1 w-full"
+                          type="password"
+                          name="password"
+                          required autocomplete="current-password"/>
+            <x-input-error :messages="$errors->get('password')" class="mt-2"/>
+        </div>
 
-        <p>
-            <button type="reset">重置</button>
-            <button type="submit">登录</button>
-        </p>
-
-        @if($errors->any())
-            @foreach($errors->all() as $err)
-                <p class="error-msg">
-                    {{ $err }}
-                </p>
-            @endforeach
-        @endif
+        <div class="flex items-center justify-end mt-4">
+            <x-primary-button class="ml-3">
+                {{ __('登录') }}
+            </x-primary-button>
+        </div>
     </form>
-</body>
-</html>
+</x-guest-layout>
