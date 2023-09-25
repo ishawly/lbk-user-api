@@ -39,7 +39,14 @@ class RecordController extends Controller
 
     public function create(Request $request)
     {
-        return view('record.create');
+        $data = [
+            'types' => [
+                ['id' => -1, 'name' => '支出'],
+                ['id' => 1, 'name' => '收入'],
+            ],
+        ];
+
+        return view('record.create', $data);
     }
 
     /**
@@ -47,7 +54,7 @@ class RecordController extends Controller
      */
     public function store(StoreRecordRequest $request, RecordService $recordService)
     {
-        $data   = $request->validated();
+        $data = $request->validated();
         $recordService->store($data, $request->user());
 
         return redirect()->route('records.create')->with('record.store.success', '记录成功!');
