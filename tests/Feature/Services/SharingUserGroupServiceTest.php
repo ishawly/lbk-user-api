@@ -5,10 +5,12 @@ namespace Tests\Feature\Services;
 use App\Models\Sharing;
 use App\Models\SharingUserGroupDetail;
 use App\Services\SharingUserGroupService;
-use Illuminate\Foundation\Testing\RefreshDatabase;
-use Illuminate\Foundation\Testing\WithFaker;
 use Tests\TestCase;
 
+/**
+ * @internal
+ * @coversNothing
+ */
 class SharingUserGroupServiceTest extends TestCase
 {
     private SharingUserGroupService $service;
@@ -19,22 +21,22 @@ class SharingUserGroupServiceTest extends TestCase
         $this->service = new SharingUserGroupService();
     }
 
-    public function test_check_user_group_for_sharing_exists(): void
+    public function testCheckUserGroupForSharingExists(): void
     {
         $sharing = Sharing::latest()->first();
-        $flag = $this->service->has($sharing->sharing_user_group_id);
+        $flag    = $this->service->has($sharing->sharing_user_group_id);
 
         $this->assertTrue($flag);
     }
 
-    public function test_check_user_group_for_sharing_not_exists(): void
+    public function testCheckUserGroupForSharingNotExists(): void
     {
         $flag = $this->service->has(PHP_INT_MAX);
 
         $this->assertFalse($flag);
     }
 
-    public function test_a_user_joined_user_group_for_sharing(): void
+    public function testAUserJoinedUserGroupForSharing(): void
     {
         $detail = SharingUserGroupDetail::latest('id')->first();
         $this->assertIsObject($detail);
