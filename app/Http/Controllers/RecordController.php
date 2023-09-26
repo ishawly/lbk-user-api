@@ -16,9 +16,7 @@ class RecordController extends Controller
 {
     public function showRecords(Request $request)
     {
-        $data = $this->index($request);
-
-        return view('record.index', $data);
+        return view('record.index');
     }
 
     /**
@@ -37,13 +35,10 @@ class RecordController extends Controller
         return $this->success(new RecordCollection($data));
     }
 
-    public function create(Request $request)
+    public function create(Request $request, RecordService $service)
     {
         $data = [
-            'types' => [
-                ['id' => -1, 'name' => '支出'],
-                ['id' => 1, 'name' => '收入'],
-            ],
+            'types' => $service->getTypes(),
         ];
 
         return view('record.create', $data);

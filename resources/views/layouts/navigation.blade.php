@@ -13,7 +13,7 @@
                     <x-nav-link :href="route('records.create')" :active="request()->routeIs('records.create')">
                         {{ __('添加记录') }}
                     </x-nav-link>
-                    <x-nav-link href="#">
+                    <x-nav-link :href="route('sharings.index')">
                         {{ __('分摊') }}
                     </x-nav-link>
                 </div>

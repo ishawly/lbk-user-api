@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Record;
 use App\Services\RecordService;
 use Illuminate\Http\Request;
 
@@ -9,13 +10,23 @@ class DashboardController extends Controller
 {
     public function index(Request $request, RecordService $recordService)
     {
-        $query = $recordService->getRecordQueryBuilder($request);
-        $query->where('user_id', $request->user()->id)->with('category:id,name');
+        $size       = 10000;
+        $type       = $request->get('type');
+        $categoryId = $request->get('category_id');
+        $trxStart   = $request->get('transaction_at_start');
+        $trxEnd     = $request->get('transaction_at_end');
+        $query      = Record::with('category:id,name')->where('user_id', $request->user()->id);
 
-        $records = $query->paginate();
+        $type       and $query->where('type', $type);
+        $categoryId and $query->where('category_id', $categoryId);
+        $trxStart   and $query->where('transaction_at', '>=', $trxStart);
+        $trxEnd     and $query->where('transaction_at', '<=', $trxEnd);
 
-        return view('dashboard', [
-            'records' => $records,
-        ]);
+        $data = [
+            'types'   => $recordService->getTypes(),
+            'records' => $query->paginate($size),
+        ];
+
+        return view('dashboard', $data);
     }
 }

@@ -41,4 +41,12 @@ class RecordService
     {
         $record->update($attributes);
     }
+
+    public function getTypes(): array
+    {
+        return [
+            ['id' => -1, 'name' => '支出'],
+            ['id' => 1, 'name' => '收入'],
+        ];
+    }
 }
