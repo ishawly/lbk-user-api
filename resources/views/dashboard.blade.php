@@ -1,13 +1,5 @@
-<x-layout>
-    <x-slot:title>
-        交易记录列表
-    </x-slot:title>
-
-    <div class="records">
-        @foreach ($records as $r)
-            <x-records.item :record="$r" />
-        @endforeach
+<x-app-layout>
+    <div class="m-5">
+        <x-records.item :records="$records" />
     </div>
-
-    {{ $records->links() }}
-</x-layout>
+</x-app-layout>

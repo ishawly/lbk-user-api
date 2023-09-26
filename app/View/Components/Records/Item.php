@@ -2,14 +2,14 @@
 
 namespace App\View\Components\Records;
 
-use App\Models\Record;
+use Illuminate\Contracts\Pagination\Paginator;
 use Illuminate\Contracts\View\View;
 use Illuminate\View\Component;
 
 class Item extends Component
 {
     public function __construct(
-        public Record $record
+        public Paginator $records
     ) {
     }
 
