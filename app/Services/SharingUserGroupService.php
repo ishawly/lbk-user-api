@@ -4,6 +4,7 @@ namespace App\Services;
 
 use App\Models\SharingUserGroup;
 use App\Models\SharingUserGroupDetail;
+use Illuminate\Database\Eloquent\Builder;
 
 class SharingUserGroupService
 {
@@ -23,5 +24,14 @@ class SharingUserGroupService
         }
 
         return true;
+    }
+
+    public function getByUserId($userId)
+    {
+        $list = SharingUserGroup::whereHas('details', function (Builder $query) use ($userId) {
+            $query->where('user_id', $userId);
+        })->get();
+
+        return $list;
     }
 }

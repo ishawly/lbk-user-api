@@ -73,12 +73,28 @@
                 @endforeach
 
                 <div class="grid grid-cols-1 gap-6">
+                    <x-input-error :messages="$errors->get('record_ids')" class="mt-2" />
+
                     <label class="block">
                         <span class="text-gray-700">{{ __('分摊名称') }}</span>
                         <input type="text" name="name" required
                                class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50" />
 
                         <x-input-error :messages="$errors->get('name')" class="mt-2" />
+                    </label>
+
+                    <label class="block">
+                        <span class="text-gray-700">{{ __('分组') }}</span>
+                        <select name="sharing_user_group_id"
+                                class="block w-full mt-1 rounded-md border-gray-300 shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50">
+                            <option value="">{{ __('请选择分组') }}</option>
+                            @foreach($userGroups as $group)
+                                <option value="{{ $group->id }}">{{ $group->name }}</option>
+                            @endforeach
+                        </select>
+                        <x-input-error :messages="$errors->get('sharing_user_group_id')" class="mt-2" />
+
+                        <a href="{{route('user-groups.create')}}" class="text-gray-700 text-underline">创建分组</a>
                     </label>
                 </div>
 
