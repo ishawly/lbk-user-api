@@ -8,6 +8,7 @@ module.exports = {
         './resources/views/**/*.blade.php',
         "./resources/**/*.js",
         "./resources/**/*.vue",
+        'node_modules/preline/dist/*.js',
     ],
 
     theme: {
@@ -18,5 +19,8 @@ module.exports = {
         },
     },
 
-    plugins: [require('@tailwindcss/forms')],
+    plugins: [
+        require('@tailwindcss/forms'),
+        require('preline/plugin'),
+    ],
 };
