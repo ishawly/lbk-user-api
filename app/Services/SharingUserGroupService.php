@@ -2,9 +2,11 @@
 
 namespace App\Services;
 
+use App\Enums\SharingUserGroupStatus;
 use App\Models\SharingUserGroup;
 use App\Models\SharingUserGroupDetail;
 use Illuminate\Database\Eloquent\Builder;
+use Illuminate\Support\Facades\DB;
 
 class SharingUserGroupService
 {
@@ -33,5 +35,34 @@ class SharingUserGroupService
         })->get();
 
         return $list;
+    }
+
+    public function store($input, $user)
+    {
+        $ratios = collect($input['sharing_ratios']);
+        if (100 != $ratios->sum()) {
+            report('分摊比例错误');
+        }
+
+        $detail = collect($input['user_ids'])->combine($ratios);
+        $group  = new SharingUserGroup();
+
+        DB::transaction(function () use ($input, $user, $detail, $group) {
+            $group->name       = $input['name'];
+            $group->created_by = $user->id;
+            $group->status     = SharingUserGroupStatus::Processing->value;
+            $group->saveOrFail();
+
+            $detail->each(function ($ratio, $userId) use ($group) {
+                $d                        = new SharingUserGroupDetail();
+                $d->sharing_user_group_id = $group->id;
+                $d->user_id               = $userId;
+                $d->sharing_ratio         = $ratio;
+                $d->joined_at             = now();
+                $d->saveOrFail();
+            });
+        });
+
+        return $group;
     }
 }

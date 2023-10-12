@@ -1,6 +1,10 @@
 <x-app-layout>
     <div class="py-12">
         <div class="max-w-md mt-8 space-y-6 sm:px-8">
+            @if (session()->has('user-groups.store.success'))
+                <div class="text-3xl text-green-700">{{ session()->pull('user-groups.store.success') }}</div>
+            @endif
+
             <form action="{{ route('user-groups.store') }}" method="POST">
                 @csrf
 
