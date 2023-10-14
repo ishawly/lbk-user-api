@@ -7,10 +7,17 @@ use App\Http\Requests\Sharing\UpdateSharingRequest;
 use App\Models\Record;
 use App\Models\Sharing;
 use App\Services\RecordService;
+use App\Services\SharingService;
 use Illuminate\Http\Request;
 
 class SharingController extends Controller
 {
+    public function __construct(
+        public SharingService $sharingService
+    )
+    {
+
+    }
     public function index(Request $request, RecordService $service)
     {
 
@@ -24,6 +31,7 @@ class SharingController extends Controller
 
     public function store(StoreSharingRequest $request)
     {
+        
     }
 
     public function show(Sharing $sharing)

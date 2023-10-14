@@ -42,4 +42,19 @@ class User extends Authenticatable
     protected $casts = [
         'email_verified_at' => 'datetime',
     ];
+
+    public function records()
+    {
+        return $this->hasMany(Record::class, 'user_id', 'id');
+    }
+
+    public function sharingUserGroups()
+    {
+        return $this->belongsToMany(
+            SharingUserGroup::class,
+            (new SharingUserGroupDetail())->getTable(),
+            'user_id',
+            'sharing_user_group_id',
+        );
+    }
 }

@@ -12,6 +12,5 @@ class SharingControllerTest extends TestCase
 {
     public function testExample(): void
     {
-
     }
 }

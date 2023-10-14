@@ -14,6 +14,7 @@ return new class() extends Migration {
             $table->id();
             $table->unsignedBigInteger('sharing_user_group_id')->nullable(false);
             $table->unsignedBigInteger('user_id')->nullable(false);
+            $table->integer('sharing_ratio')->default(0)->nullable(false)->comment('分摊比率,万分比取分子');
             $table->timestamp('joined_at');
             $table->timestamps();
         });
