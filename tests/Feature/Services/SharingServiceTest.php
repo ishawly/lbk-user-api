@@ -46,6 +46,7 @@ class SharingServiceTest extends TestCase
 
         $sharingRecords = SharingRecord::query()->where('user_id', $user->id)
             ->whereIn('record_id', $input['record_ids'])
+            ->where('sharing_id', $sharing->id)
             ->get();
 
         $this->assertGreaterThan(0, $sharingRecords->count());
