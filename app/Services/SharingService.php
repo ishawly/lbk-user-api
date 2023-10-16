@@ -13,7 +13,7 @@ use Illuminate\Support\Facades\DB;
 
 class SharingService
 {
-    public function store(array $input, $user)
+    public function store(array $input, $user): Sharing
     {
         $sharing = new Sharing();
 
@@ -50,5 +50,10 @@ class SharingService
         });
 
         return $sharing;
+    }
+
+    public function update(array $input, $user): Sharing
+    {
+        return new Sharing();
     }
 }

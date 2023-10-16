@@ -52,4 +52,10 @@ class SharingServiceTest extends TestCase
         $this->assertGreaterThan(0, $sharingRecords->count());
         $this->assertCount(count($input['record_ids']), $sharingRecords);
     }
+
+    public function testUpdateSharing()
+    {
+        $user = null;
+        $this->assertNotEmpty($user);
+    }
 }
