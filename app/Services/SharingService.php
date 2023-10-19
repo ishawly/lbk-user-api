@@ -52,8 +52,55 @@ class SharingService
         return $sharing;
     }
 
-    public function update(array $input, $user): Sharing
+    public function update(Sharing $sharing, array $input, $user): Sharing
     {
-        return new Sharing();
+        // Check current is member of Sharing user group
+        $group     = SharingUserGroup::query()->where('id', $sharing->sharing_user_group_id)->firstOrFail();
+        $groupUser = $group->details()->where('user_id', $user->id)->firstOrFail();
+
+        DB::transaction(function () use ($sharing, $input, $user, $groupUser) {
+            [
+                'record_ids' => $recordIds,
+            ] = $input;
+
+            // Sharing Records
+            $recordIds = collect($recordIds);
+
+            $sRecords   = $sharing->records()->where('user_id', $user->id)->get('id');
+            $sRecordIds = $sRecords->pluck('id');
+
+            $deleteIds = $sRecordIds->diff($recordIds);
+            SharingRecord::query()
+                ->where('user_id', $user->id)
+                ->where('sharing_id', $sharing->id)
+                ->whereIn('id', $deleteIds)
+                ->delete();
+
+            $addIds     = collect($recordIds)->diff($sRecordIds);
+            $addRecords = Record::query()->where('user_id', $user->id)
+                ->whereIn('id', $addIds)->get();
+            $addRecords->each(function ($record) use ($sharing) {
+                $sr = new SharingRecord([
+                    // 'sharing_id' => $sharing->id,
+                    'record_id'      => $record->id,
+                    'user_id'        => $record->user_id,
+                    'type'           => $record->type,
+                    'amount'         => $record->amount,
+                    'transaction_at' => $record->transaction_at,
+                    'snapshot'       => $record,
+                ]);
+                $sharing->records()->save($sr);
+            });
+
+            // Sharing user
+            SharingUser::firstOrCreate([
+                'sharing_id'    => $sharing->id,
+                'user_id'       => $groupUser->id,
+                'status'        => SharingStatus::Processing->value,
+                'sharing_ratio' => $groupUser->sharing_ratio,
+            ]);
+        });
+
+        return $sharing;
     }
 }

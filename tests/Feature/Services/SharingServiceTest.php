@@ -3,6 +3,7 @@
 namespace Tests\Feature\Services;
 
 use App\Models\Record;
+use App\Models\Sharing;
 use App\Models\SharingRecord;
 use App\Models\SharingUserGroup;
 use App\Models\User;
@@ -23,7 +24,7 @@ class SharingServiceTest extends TestCase
         $this->service = new SharingService();
     }
 
-    public function testStoreSharing(): void
+    public function testStoreSharing(): Sharing
     {
         $user = User::query()->select('id')->has('records')
             ->has('sharingUserGroups')
@@ -51,11 +52,34 @@ class SharingServiceTest extends TestCase
 
         $this->assertGreaterThan(0, $sharingRecords->count());
         $this->assertCount(count($input['record_ids']), $sharingRecords);
+
+        return $sharing;
     }
 
-    public function testUpdateSharing()
+    /**
+     * @depends testStoreSharing
+     */
+    public function testUpdateSharingWhenFirstJoinIn(Sharing $sharing)
     {
-        $user = null;
-        $this->assertNotEmpty($user);
+        $existsSharingUsers = $sharing->users;
+        $group              = SharingUserGroup::findOrFail($sharing->sharing_user_group_id);
+        $this->assertNotEmpty($group);
+
+        $groupMember = $group->details()
+            ->whereNotIn('user_id', $existsSharingUsers->pluck('id'))
+            ->first();
+        $this->assertNotEmpty($groupMember);
+
+        $records = Record::query()->where('user_id', $groupMember->user_id)
+            ->orderByDesc('id')
+            ->limit(10)
+            ->get();
+        $user = User::find($groupMember->user_id);
+
+        $input = ['record_ids' => $records->pluck('id')];
+        $this->service->update($sharing, $input, $user);
+
+        $sharing->refresh();
+        $this->assertEquals($records->count(), $sharing->records()->count());
     }
 }

@@ -8,4 +8,14 @@ use Illuminate\Database\Eloquent\Model;
 class Sharing extends Model
 {
     use HasFactory;
+
+    public function users()
+    {
+        return $this->hasMany(SharingUser::class, 'user_id', 'id');
+    }
+
+    public function records()
+    {
+        return $this->hasMany(SharingRecord::class);
+    }
 }

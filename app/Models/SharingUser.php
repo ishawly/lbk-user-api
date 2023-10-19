@@ -8,4 +8,11 @@ use Illuminate\Database\Eloquent\Model;
 class SharingUser extends Model
 {
     use HasFactory;
+
+    protected $fillable = [
+        'sharing_id',
+        'user_id',
+        'sharing_ratio',
+        'status',
+    ];
 }
