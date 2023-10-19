@@ -7,7 +7,7 @@ use Illuminate\View\Component;
 
 class AppLayout extends Component
 {
-    public function render(): View|\Closure|string
+    public function render(): \Closure|string|View
     {
         return view('layouts.app');
     }

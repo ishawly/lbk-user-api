@@ -2,6 +2,4 @@
 
 namespace App\Http\Requests\Record;
 
-class UpdateRecordRequest extends StoreRecordRequest
-{
-}
+class UpdateRecordRequest extends StoreRecordRequest {}

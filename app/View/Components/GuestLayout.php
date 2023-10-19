@@ -7,7 +7,7 @@ use Illuminate\View\Component;
 
 class GuestLayout extends Component
 {
-    public function render(): View|\Closure|string
+    public function render(): \Closure|string|View
     {
         return view('layouts.guest');
     }

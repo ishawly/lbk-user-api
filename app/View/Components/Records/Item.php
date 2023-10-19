@@ -10,13 +10,12 @@ class Item extends Component
 {
     public function __construct(
         public Paginator $records
-    ) {
-    }
+    ) {}
 
     /**
      * Get the view / contents that represent the component.
      */
-    public function render(): View|\Closure|string
+    public function render(): \Closure|string|View
     {
         return view('components.records.item');
     }

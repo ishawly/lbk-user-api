@@ -10,7 +10,5 @@ use Tests\TestCase;
  */
 class SharingControllerTest extends TestCase
 {
-    public function testExample(): void
-    {
-    }
+    public function testExample(): void {}
 }
