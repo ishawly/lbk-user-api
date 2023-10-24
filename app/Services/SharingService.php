@@ -20,7 +20,6 @@ class SharingService
         DB::transaction(function () use ($input, $user, $sharing) {
             $group   = SharingUserGroup::query()->findOrFail($input['sharing_user_group_id']);
             $details = $group->details()->get();
-            $detail  = $details->where('user_id', $user->id)->first();
             $records = Record::query()->where('user_id', $user->id)->whereIn('id', $input['record_ids'])->get();
 
             $sharing->name                  = $input['name'];
@@ -29,12 +28,14 @@ class SharingService
             $sharing->sharing_user_group_id = $group->id;
             $sharing->save();
 
-            $sharingUser                = new SharingUser();
-            $sharingUser->sharing_id    = $sharing->id;
-            $sharingUser->user_id       = $detail->user_id;
-            $sharingUser->status        = SharingUserGroupStatus::Processing->value;
-            $sharingUser->sharing_ratio = $detail->sharing_ratio;
-            $sharingUser->save();
+            $details->each(function ($detail) use ($sharing) {
+                $sharingUser                = new SharingUser();
+                $sharingUser->sharing_id    = $sharing->id;
+                $sharingUser->user_id       = $detail->user_id;
+                $sharingUser->status        = SharingUserGroupStatus::Processing->value;
+                $sharingUser->sharing_ratio = $detail->sharing_ratio;
+                $sharingUser->save();
+            });
 
             $records->each(function ($record) use ($sharing) {
                 SharingRecord::create([

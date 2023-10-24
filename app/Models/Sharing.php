@@ -11,7 +11,7 @@ class Sharing extends Model
 
     public function users()
     {
-        return $this->hasMany(SharingUser::class, 'user_id', 'id');
+        return $this->hasMany(SharingUser::class, 'sharing_id', 'id');
     }
 
     public function records()

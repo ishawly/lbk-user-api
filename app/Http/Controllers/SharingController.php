@@ -31,7 +31,10 @@ class SharingController extends Controller
 
     public function store(StoreSharingRequest $request)
     {
-        
+        $input = $request->validated();
+        $sharing = $this->sharingService->store($input, $request->user());
+
+        // todo
     }
 
     public function show(Sharing $sharing)
