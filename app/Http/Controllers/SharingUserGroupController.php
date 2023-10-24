@@ -21,15 +21,19 @@ class SharingUserGroupController extends Controller
         //
     }
 
-    public function create()
+    public function create(Request $request)
     {
         $users = User::query()->select(['id', 'name'])
             ->where('id', '>', 1000)
+            ->where('id', '!=', $request->user()->id)
             ->orderBy('id')
             ->take(10)
             ->get();
 
-        return view('sharing-user-group.create', ['users' => $users]);
+        return view('sharing-user-group.create', [
+            'users' => $users,
+            'user'  => $request->user(),
+        ]);
     }
 
     public function store(StoreSharingUserGroupRequest $request)

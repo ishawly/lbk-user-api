@@ -21,10 +21,7 @@
                         <span class="text-gray-700">{{ __('用户1') }}</span>
                         <select name="user_ids[]"
                             class="block w-full mt-1 border-gray-300 rounded-md shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50">
-                            <option value="">{{ __('请选择用户') }}</option>
-                            @foreach ($users as $u)
-                                <option value="{{ $u->id }}">{{ $u->name }}</option>
-                            @endforeach
+                            <option value="{{ $user->id }}">{{ $user->name }}</option>
                         </select>
                     </label>
 
