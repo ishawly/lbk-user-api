@@ -81,7 +81,7 @@ class SharingServiceTest extends TestCase
             ->orderByDesc('id')
             ->limit(10)
             ->get();
-        $user = User::find($groupMember->user_id);
+        $user  = User::find($groupMember->user_id);
         $input = ['record_ids' => $records->pluck('id')];
         $this->service->update($sharing, $input, $user);
 
